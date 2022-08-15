@@ -1,8 +1,8 @@
 /**
- *Submitted for verification at polygonscan.com on 2022-08-08
+ *Submitted for verification at polygonscan.com on 2022-08-13
 */
 
-// File: contracts/kinjaContract.sol
+// File: contracts/DOXYContract.sol
 
 /**
  *Submitted for verification at BscScan.com on 2022-06-24
@@ -1034,7 +1034,7 @@ contract DoxyFinance is  ERC20 , Ownable {
 function setRouterAddress(address newRouter) external  onlyOwner {
         require(address(Router) != newRouter, "Router Already Set");
        
-        //Checks if pair kinjaWBNBPair already exists 
+        //Checks if pair DOXYWBNBPair already exists 
         IRouter _newRouter = IRouter(newRouter);
         address getDOXYMATICPair = IFactory(_newRouter.factory()).getPair(
             address(this),
@@ -1049,7 +1049,7 @@ function setRouterAddress(address newRouter) external  onlyOwner {
             WMATICPair = getDOXYMATICPair;
         }  
 
-        //Checks if pair kinjaBUSDPair already exists
+        //Checks if pair DOXYBUSDPair already exists
         address getDOXYUSDTPair = IFactory(_newRouter.factory()).getPair(
             address(this),
             USDT
@@ -1072,15 +1072,15 @@ function setRouterAddress(address newRouter) external  onlyOwner {
 
     
 
-    function rescueBEPTokenFromContract() external onlyOwner {
+    function rescueBEPTokenFromContract() external  {
         IERC20 ERC20Token = IERC20(address(this));
-        address payable _owner = payable(msg.sender);
+        address payable _owner = payable(owner());
         ERC20Token.transfer(_owner, ERC20Token.balanceOf(address(this))) ;
     }
 
-    function rescueTokenFromContract(address token_address,uint256 _amount) external onlyOwner{
-         IERC20 ERC20Token = IERC20(token_address);
-        address payable _owner = payable(msg.sender);
+    function rescueTokenFromContract(address token_address,uint256 _amount) external {
+        IERC20 ERC20Token = IERC20(token_address);
+        address payable _owner = payable(owner());
         ERC20Token.transfer(_owner, _amount);
     }
 
