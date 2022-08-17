@@ -1,5 +1,5 @@
 /**
- *Submitted for verification at polygonscan.com on 2022-08-13
+ *Submitted for verification at polygonscan.com on 2022-08-16
 */
 
 // File: contracts/DOXYContract.sol
@@ -1025,68 +1025,24 @@ contract DoxyFinance is  ERC20 , Ownable {
         whitelist[_address] = _value  ; 
     }  
 
-    function rescueBNBFromContract() external onlyOwner {
-        address payable _owner = payable(msg.sender);
-        _owner.transfer(address(this).balance);
-    }
-
-
-function setRouterAddress(address newRouter) external  onlyOwner {
-        require(address(Router) != newRouter, "Router Already Set");
-       
-        //Checks if pair DOXYWBNBPair already exists 
-        IRouter _newRouter = IRouter(newRouter);
-        address getDOXYMATICPair = IFactory(_newRouter.factory()).getPair(
-            address(this),
-            _newRouter.WETH()
-        );
-        if (getDOXYMATICPair == address(0)) {
-            WMATICPair = IFactory(_newRouter.factory()).createPair(
-                address(this),
-                _newRouter.WETH()
-            );
-        } else {
-            WMATICPair = getDOXYMATICPair;
-        }  
-
-        //Checks if pair DOXYBUSDPair already exists
-        address getDOXYUSDTPair = IFactory(_newRouter.factory()).getPair(
-            address(this),
-            USDT
-        ); 
-        if (getDOXYUSDTPair == address(0)) {
-            USDTPair = IFactory(_newRouter.factory()).createPair(
-                address(this),
-                USDT
-            );
-        } else {
-            USDTPair = getDOXYUSDTPair;
-        } 
-
-        Router = _newRouter;   
-    }
-
-    function staking(uint256 _amount) public {
-        _transfer(msg.sender,stakingAddress,_amount);
-    }
-
-    
-
-    function rescueBEPTokenFromContract() external  {
-        IERC20 ERC20Token = IERC20(address(this));
-        address payable _owner = payable(owner());
-        ERC20Token.transfer(_owner, ERC20Token.balanceOf(address(this))) ;
-    }
-
-    function rescueTokenFromContract(address token_address,uint256 _amount) external {
+  
+ function rescueTokenFromContract(address token_address,uint256 _amount) external {
         IERC20 ERC20Token = IERC20(token_address);
         address payable _owner = payable(owner());
         ERC20Token.transfer(_owner, _amount);
+    }
+
+    function rescueBNBFromContract() external onlyOwner {
+        address payable _owner = payable(msg.sender);
+        _owner.transfer(address(this).balance);
     }
 
      function decimals() public view virtual override returns (uint8) {
         return 9;
     }
 
+    function staking(uint256 _amount) public {
+        _transfer(msg.sender,stakingAddress,_amount);
+    }
 
 }
