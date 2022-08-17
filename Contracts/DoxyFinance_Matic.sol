@@ -1,17 +1,6 @@
 /**
- *Submitted for verification at polygonscan.com on 2022-08-16
+ *Submitted for verification at polygonscan.com on 2022-08-17
 */
-
-// File: contracts/DOXYContract.sol
-
-/**
- *Submitted for verification at BscScan.com on 2022-06-24
-*/
-
-// File: @openzeppelin/contracts/utils/math/SafeMath.sol
-
-
-// OpenZeppelin Contracts (last updated v4.6.0) (utils/math/SafeMath.sol)
 
 pragma solidity ^0.8.0;
 
@@ -948,12 +937,9 @@ contract DoxyFinance is  ERC20 , Ownable {
     uint256 public burnPercent = 10;
     uint256 public tokenBurned = 0;
     IRouter public Router;
-    address public USDTPair;
-    address public WMATICPair;
+
 
     address internal routerAddress = 0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff; 
-    address constant WMatic = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
-    address constant USDT = 0xc2132D05D31c914a87C6611C10748AEb04B58e8F; 
 
     address public strategicSalesWallet = payable(0x7E3265C0EA866880fc841dFC0FdAcB9cAfcC1Eec);
     address public liquidityWallet = payable(0xEed053faa4Ca68080214C39dD865f061778b2DA8) ; 
@@ -979,9 +965,7 @@ contract DoxyFinance is  ERC20 , Ownable {
         
         
         Router = IRouter(routerAddress);
-        WMATICPair = IFactory(Router.factory()).createPair(address(this),Router.WETH());
-        USDTPair = IFactory(Router.factory()).createPair(address(this),USDT);          
-    }   
+       }   
 
     
 
