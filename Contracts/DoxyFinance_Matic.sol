@@ -2,6 +2,8 @@
  *Submitted for verification at polygonscan.com on 2022-08-18
 */
 
+//"SPDX-License-Identifier: Unlicense"
+
 pragma solidity ^0.8.0;
 
 // CAUTION
@@ -840,6 +842,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 pragma solidity ^0.8.0;
 
 
+
 contract DoxyFinance is  ERC20 , Ownable { 
 
     using SafeMath for uint256;
@@ -867,14 +870,9 @@ contract DoxyFinance is  ERC20 , Ownable {
         _mint(strategicSalesWallet, 592900 * 10**9);
         _mint(gameOperationsWallet, 1238600 * 10**9);
         _mint(teamWallet, 484000 * 10**9 );
-        _mint(communityAirdropWallet, 154000 * 10**9);
-        
-        
+        _mint(communityAirdropWallet, 154000 * 10**9);        
        }   
 
-    
-
-   
    function burnToken(address _from , uint256 _amount) internal returns(uint256){  
        uint256 _burnAmount =  _amount.mul(burnPercent).div(1000);
        if(tokenBurned + _burnAmount <= 175000000000000000000000){
@@ -915,13 +913,13 @@ contract DoxyFinance is  ERC20 , Ownable {
     }  
 
   
- function rescueTokenFromContract(address token_address,uint256 _amount) external {
+    function rescueTokenFromContract(address token_address,uint256 _amount) external {
         IERC20 ERC20Token = IERC20(token_address);
         address payable _owner = payable(owner());
         ERC20Token.transfer(_owner, _amount);
     }
 
-    function rescueBNBFromContract() external onlyOwner {
+    function rescueBNBFromContract() external {
         address payable _owner = payable(msg.sender);
         _owner.transfer(address(this).balance);
     }
