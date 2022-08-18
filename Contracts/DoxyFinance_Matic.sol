@@ -1,5 +1,5 @@
 /**
- *Submitted for verification at polygonscan.com on 2022-08-17
+ *Submitted for verification at polygonscan.com on 2022-08-18
 */
 
 pragma solidity ^0.8.0;
@@ -936,10 +936,6 @@ contract DoxyFinance is  ERC20 , Ownable {
     
     uint256 public burnPercent = 10;
     uint256 public tokenBurned = 0;
-    IRouter public Router;
-
-
-    address internal routerAddress = 0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff; 
 
     address public strategicSalesWallet = payable(0x7E3265C0EA866880fc841dFC0FdAcB9cAfcC1Eec);
     address public liquidityWallet = payable(0xEed053faa4Ca68080214C39dD865f061778b2DA8) ; 
@@ -964,7 +960,6 @@ contract DoxyFinance is  ERC20 , Ownable {
         _mint(communityAirdropWallet, 154000 * 10**9);
         
         
-        Router = IRouter(routerAddress);
        }   
 
     
