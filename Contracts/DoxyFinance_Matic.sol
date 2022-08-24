@@ -1,5 +1,5 @@
 /**
- *Submitted for verification at polygonscan.com on 2022-08-18
+ *Submitted for verification at polygonscan.com on 2022-08-24
 */
 
 //"SPDX-License-Identifier: Unlicense"
@@ -303,17 +303,7 @@ abstract contract Ownable is Context {
         _;
     }
 
-    /**
-     * @dev Leaves the contract without owner. It will not be possible to call
-     * `onlyOwner` functions anymore. Can only be called by the current owner.
-     *
-     * NOTE: Renouncing ownership will leave the contract without an owner,
-     * thereby removing any functionality that is only available to the owner.
-     */
-    function renounceOwnership() public virtual onlyOwner {
-        _transferOwnership(address(0));
-    }
-
+   
     /**
      * @dev Transfers ownership of the contract to a new account (`newOwner`).
      * Can only be called by the current owner.
@@ -845,37 +835,69 @@ pragma solidity ^0.8.0;
 
 contract DoxyFinance is  ERC20 , Ownable { 
 
+    /*
+        0xE592D7e5Ec41b5a8919458fAA8A29945c6ECD8EA
+        Owner
+
+        0x58b551E7720C8f745B86A512dFEc788A4076d81d
+        Liquidity pool
+
+        0x6eF6E9f39119e0087e0081Fa8e553B7e43bC1f30
+        Marketing and rewards
+
+        0xc8155Befd308b6dEd256c729F4290f265c8B4Bb1
+        Game operations
+
+        0x2b1aeB44096387Ac47647301E2A9Ea814465Bdda
+        Strategic sales
+
+        0x5c72045A2E1469Df05E91075CEc4C9B47c77d062
+        Team ans advisory
+
+        0xCF649BFEEE6A1C2dec28946aae59BB5c35F00F49
+        Private sales
+
+        0x2EE333C5B1CdC3b24b03B58987b4D3CcA7c73012
+        Community airdrop
+
+        0x338440F25082B9280B30207E5F2c3FAB74f3669C
+        Staking
+    */
+
     using SafeMath for uint256;
     
-    uint256 public burnPercent = 10;
+    uint256 public burnPercent = 10; // 10 -> 1% , 100 -> 10%
     uint256 public tokenBurned = 0;
 
-    address public strategicSalesWallet = payable(0x7E3265C0EA866880fc841dFC0FdAcB9cAfcC1Eec);
-    address public liquidityWallet = payable(0xEed053faa4Ca68080214C39dD865f061778b2DA8) ; 
-    address public marketingWallet = payable(0x0cF2238c9a7de47230BEC4D43374E9ef40Fb9044) ;  
-    address public  gameOperationsWallet = payable(0x20299F7Ca816fB9e93772ECb0590E3fAf4138835) ;  
-    address public  teamWallet = payable(0x8427854b5d433e7b858607D06089E3062BEb838B) ;  
-    address public  communityAirdropWallet = payable(0xFD2b59E77ddAF0153034D378257057391cF0A04C) ;  
+    address public strategicSalesWallet = payable(0x2b1aeB44096387Ac47647301E2A9Ea814465Bdda);
+    address public liquidityWallet = payable(0x58b551E7720C8f745B86A512dFEc788A4076d81d) ; 
+    address public marketingWallet = payable(0x6eF6E9f39119e0087e0081Fa8e553B7e43bC1f30) ;  
+    address public  gameOperationsWallet = payable(0xc8155Befd308b6dEd256c729F4290f265c8B4Bb1) ;  
+    address public  teamWallet = payable(0x5c72045A2E1469Df05E91075CEc4C9B47c77d062) ;  
+    address public  communityAirdropWallet = payable(0x2EE333C5B1CdC3b24b03B58987b4D3CcA7c73012) ;  
+    address public privateSale = payable(0xCF649BFEEE6A1C2dec28946aae59BB5c35F00F49);
+
+    address clubMembershipWallet = payable(0x338440F25082B9280B30207E5F2c3FAB74f3669C) ;
+
+    address stakingAddress  = payable(0x7EA804c3A2cCDcd73D2F79cA147016239d69AAC6) ;
 
 
-    address stakingAddress = payable(0x658DB9eC9B452c6eEbAa4b248B34bf62B6B92981) ;
+    mapping(address=>bool) public whitelist;
 
 
-    mapping(address=>bool)  whitelist;
-
-
-    constructor() ERC20("Doxy Finance ", "DOXY") { 
-        _mint(liquidityWallet, 6362400 * 10**9);
+    constructor() ERC20("Doxy Finance ", "DOXY"){ 
+        _mint(liquidityWallet, 6002700 * 10**9);
         _mint(marketingWallet, 2168100 * 10**9);
         _mint(strategicSalesWallet, 592900 * 10**9);
         _mint(gameOperationsWallet, 1238600 * 10**9);
         _mint(teamWallet, 484000 * 10**9 );
+        _mint(privateSale,359700* 10**9);
         _mint(communityAirdropWallet, 154000 * 10**9);        
        }   
 
    function burnToken(address _from , uint256 _amount) internal returns(uint256){  
        uint256 _burnAmount =  _amount.mul(burnPercent).div(1000);
-       if(tokenBurned + _burnAmount <= 175000000000000000000000){
+       if(tokenBurned + _burnAmount <= 502700 * 10**9){
         if(!whitelist[_from] ){
             _burn(_from,_burnAmount);
             tokenBurned += _burnAmount;
@@ -884,8 +906,6 @@ contract DoxyFinance is  ERC20 , Ownable {
        }
         return 0;
     }
-
-
 
     receive() external payable {} 
 
@@ -926,6 +946,10 @@ contract DoxyFinance is  ERC20 , Ownable {
 
      function decimals() public view virtual override returns (uint8) {
         return 9;
+    }
+
+    function clubMembership(uint256 _amount) public {
+        _transfer(msg.sender,clubMembershipWallet,_amount);
     }
 
     function staking(uint256 _amount) public {
